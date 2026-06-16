@@ -631,8 +631,8 @@ footer {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr 1fr;
-    gap: 4rem;
+    grid-template-columns: 1.2fr 0.8fr 0.8fr 1.2fr;
+    gap: 2.5rem;
     margin-bottom: 4rem;
 }
 
@@ -694,6 +694,37 @@ footer {
     color: var(--text-main);
 }
 
+.footer-links h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.quick-links {
+    list-style: none;
+}
+
+.quick-links li {
+    margin-bottom: 0.8rem;
+}
+
+.quick-links a {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quick-links a:hover {
+    color: var(--primary);
+    transform: translateX(4px);
+}
+
 .map-box {
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -716,6 +747,130 @@ footer {
     text-align: center;
     font-size: 0.85rem;
     color: var(--text-muted);
+}
+
+/* Showcase Filter Bar styling */
+.showcase-filter-container {
+    display: flex;
+    justify-content: center;
+    margin-top: -1.5rem;
+    margin-bottom: 3rem;
+}
+
+.showcase-filter-tabs {
+    display: flex;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-card);
+    border-radius: 50px;
+    padding: 6px;
+    gap: 6px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.showcase-filter-tab {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 0.6rem 1.8rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: var(--transition-smooth);
+}
+
+.showcase-filter-tab:hover {
+    color: var(--text-main);
+}
+
+.showcase-filter-tab.active {
+    background: var(--primary);
+    color: var(--text-main);
+    box-shadow: 0 4px 15px rgba(227, 24, 55, 0.3);
+}
+
+/* Ver Estoque Completo Button styling */
+.showcase-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 3.5rem;
+}
+
+.btn-showcase-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: transparent;
+    color: var(--text-main);
+    border: 2px solid var(--primary);
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: var(--font);
+    transition: var(--transition-smooth);
+    box-shadow: 0 0 0 rgba(227, 24, 55, 0);
+}
+
+.btn-showcase-more:hover {
+    background: var(--primary);
+    color: var(--text-main);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(227, 24, 55, 0.25);
+}
+
+.btn-showcase-more svg {
+    transition: transform 0.4s ease;
+}
+
+.btn-showcase-more:hover svg {
+    transform: translateY(2px);
+}
+
+/* Admin Capacity Indicator styling */
+.capacity-container {
+    margin-top: 0.4rem;
+    width: 100%;
+}
+
+.capacity-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.capacity-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.capacity-progress {
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    border-radius: 3px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s ease;
+}
+
+.capacity-progress.warning {
+    background: #e67e22; /* Warning Orange */
+}
+
+.capacity-progress.danger {
+    background: #e74c3c; /* Danger Red */
 }
 
 /* Responsive Breakpoints */
@@ -784,4 +939,79 @@ footer {
     .inventory-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Card Logo Overlay styling */
+.card-logo-overlay {
+    position: absolute;
+    z-index: 4;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    max-height: 32px;
+    transition: var(--transition-smooth);
+}
+
+.card-logo-overlay.logo-top-left {
+    top: 1rem;
+    left: 1rem;
+}
+
+.card-logo-overlay.logo-top-right {
+    top: 1rem;
+    right: 1rem;
+}
+
+.card-logo-overlay.logo-bottom-left {
+    bottom: 1rem;
+    left: 1rem;
+}
+
+.card-logo-overlay.logo-bottom-right {
+    bottom: 1rem;
+    right: 1rem;
+}
+
+/* If there is a status badge on top-left, we offset the top-left logo */
+.sold .status-badge ~ .card-logo-overlay.logo-top-left,
+.status-badge ~ .card-logo-overlay.logo-top-left {
+    top: 3.5rem;
+}
+
+.card-logo-img {
+    max-height: 20px;
+    width: auto;
+    object-fit: contain;
+}
+
+.card-logo-text {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.2px;
+    color: #ffffff;
+}
+
+.card-logo-text span {
+    color: var(--primary);
+}
+
+/* Category Accent Color Classes */
+.accent-feirao {
+    --category-accent: #E31837;
+}
+
+.accent-oferta {
+    --category-accent: #0066FF;
+}
+
+.accent-destaque {
+    --category-accent: #D4AF37;
 }

@@ -17,7 +17,7 @@ const TRANSLATIONS = {
         spec_year: "Ano",
         spec_km: "KM",
         spec_trans: "Câmbio",
-        btn_card_cta: "Garantir este Carro",
+        btn_card_cta: "Ver Detalhes",
         btn_card_sold: "Vendido",
         sec_trade_badge: "Avaliação Rápida",
         sec_trade_title: "Quer vender ou trocar seu carro hoje?",
@@ -54,6 +54,11 @@ const TRANSLATIONS = {
         footer_sun: "Domingos e Feriados",
         footer_closed: "Fechado",
         footer_map: "Localização",
+        footer_links_title: "Links Rápidos",
+        footer_admin_link: "Painel Administrativo",
+        filter_all: "Todos",
+        filter_available: "Disponíveis",
+        filter_sold: "Vendidos",
         copyright: "© 2026 Apex Motors. Desenvolvido por <a href=\"https://gdsdesign.site\" target=\"_blank\" style=\"color: var(--primary); text-decoration: none; font-weight: 600;\">GDS Design</a>. Todos os direitos reservados."
     },
     es: {
@@ -64,7 +69,7 @@ const TRANSLATIONS = {
         btn_whatsapp: "Contacto WhatsApp",
         hero_badge: "✓ Procedencia garantizada e informe técnico aprobado en el 100% del stock.",
         hero_title: "Donde la exclusividad se encuentra con su próximo camino.",
-        hero_subtitle: "Curaduría rigurosa de vehículos multimarcas premium y seminuevos seleccionados en la región de la triple frontera.",
+        hero_subtitle: "Curaduría riguroea de vehículos multimarcas premium y seminuevos seleccionados en la región de la triple frontera.",
         hero_cta_stock: "Ver Inventario",
         hero_cta_chat: "Hablar con Asesor",
         sec_inventory_badge: "Selección Exclusiva",
@@ -73,7 +78,7 @@ const TRANSLATIONS = {
         spec_year: "Año",
         spec_km: "KM",
         spec_trans: "Transmisión",
-        btn_card_cta: "Asegurar este Auto",
+        btn_card_cta: "Ver Detalles",
         btn_card_sold: "Vendido",
         sec_trade_badge: "Valoración Rápida",
         sec_trade_title: "¿Quiere vender o cambiar su auto hoy?",
@@ -110,6 +115,11 @@ const TRANSLATIONS = {
         footer_sun: "Domingos y Feriados",
         footer_closed: "Cerrado",
         footer_map: "Ubicación",
+        footer_links_title: "Enlaces Rápidos",
+        footer_admin_link: "Panel de Administración",
+        filter_all: "Todos",
+        filter_available: "Disponibles",
+        filter_sold: "Vendidos",
         copyright: "© 2026 Apex Motors. Desarrollado por <a href=\"https://gdsdesign.site\" target=\"_blank\" style=\"color: var(--primary); text-decoration: none; font-weight: 600;\">GDS Design</a>. Todos los derechos reservados."
     }
 };
@@ -119,7 +129,7 @@ let VEHICLES_DATA = [
     {
         id: "porsche-911",
         name: "Porsche 911 Carrera S",
-        image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=800",
+        image: "images/porsche_911.png",
         specs: {
             pt: { year: "2022/2023", km: "8.500 km", transmission: "PDK Automático" },
             es: { year: "2022/2023", km: "8.500 km", transmission: "PDK Automático" }
@@ -133,7 +143,7 @@ let VEHICLES_DATA = [
     {
         id: "bmw-m3",
         name: "BMW M3 Competition",
-        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800",
+        image: "images/bmw_m3.png",
         specs: {
             pt: { year: "2021/2022", km: "15.000 km", transmission: "Automático" },
             es: { year: "2021/2022", km: "15.000 km", transmission: "Automático" }
@@ -147,7 +157,7 @@ let VEHICLES_DATA = [
     {
         id: "audi-rs6",
         name: "Audi RS6 Avant GP Edition",
-        image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800",
+        image: "images/audi_rs6.png",
         specs: {
             pt: { year: "2020/2021", km: "24.000 km", transmission: "Tiptronic" },
             es: { year: "2020/2021", km: "24.000 km", transmission: "Tiptronic" }
@@ -179,15 +189,79 @@ const CALC_VALORES = {
 };
 
 let currentLang = "pt";
+let showcaseFilter = "all";
+let showAllVehicles = false;
 let selectedAddons = { item_1: false, item_2: false, item_3: false };
+
+// Store Settings (logo, whatsapp, logoPosition)
+let STORE_SETTINGS = {
+    whatsapp: "595973977991",
+    logo: "",
+    logoPosition: "top-right"
+};
+
+function loadStoreSettings() {
+    const saved = localStorage.getItem("apex_motors_settings");
+    if (saved) {
+        try {
+            STORE_SETTINGS = JSON.parse(saved);
+        } catch(e) {
+            console.warn("Could not load settings:", e);
+        }
+    }
+}
 
 async function loadDynamicStock() {
     try {
+        // Tenta carregar primeiro do localStorage para o painel administrativo funcionar localmente
+        const localData = localStorage.getItem("apex_motors_inventory");
+        if (localData) {
+            const parsed = JSON.parse(localData);
+            if (parsed && parsed.vehicles) {
+                // Auto-migrate legacy unsplash images in localStorage from landing page as well
+                let migrated = false;
+                parsed.vehicles.forEach(car => {
+                    if (car.image && car.image.includes("images.unsplash.com")) {
+                        if (car.image.includes("1614162692292")) {
+                            car.image = "images/porsche_911.png";
+                            migrated = true;
+                        } else if (car.image.includes("1555215695")) {
+                            car.image = "images/bmw_m3.png";
+                            migrated = true;
+                        } else if (car.image.includes("1603584173")) {
+                            car.image = "images/audi_rs6.png";
+                            migrated = true;
+                        }
+                    }
+                });
+                if (migrated) {
+                    localStorage.setItem("apex_motors_inventory", JSON.stringify(parsed));
+                }
+
+                VEHICLES_DATA = parsed.vehicles.slice(0, 15).map(car => ({
+                    id: car.id,
+                    name: car.name,
+                    image: car.image,
+                    specs: {
+                        pt: { year: car.specs_pt.year, km: car.specs_pt.km, transmission: car.specs_pt.transmission },
+                        es: { year: car.specs_es.year, km: car.specs_es.km, transmission: car.specs_es.transmission }
+                    },
+                    price: {
+                        pt: car.price.pt,
+                        es: car.price.es
+                    },
+                    isSold: car.isSold
+                }));
+                console.log("Estoque carregado com sucesso do localStorage.");
+                return;
+            }
+        }
+
         const response = await fetch("data/vehicles.json");
         if (response.ok) {
             const data = await response.json();
             if (data && data.vehicles) {
-                VEHICLES_DATA = data.vehicles.map(car => ({
+                VEHICLES_DATA = data.vehicles.slice(0, 15).map(car => ({
                     id: car.id,
                     name: car.name,
                     image: car.image,
@@ -215,6 +289,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (browserLang.startsWith("es")) {
         currentLang = "es";
     }
+
+    loadStoreSettings();
 
     loadDynamicStock().then(() => {
         setLanguage(currentLang);
@@ -283,7 +359,28 @@ function renderVehicles() {
     if (!grid) return;
     grid.innerHTML = "";
 
-    VEHICLES_DATA.forEach(car => {
+    // 1. Filter based on showcaseFilter
+    let filteredCars = VEHICLES_DATA;
+    if (showcaseFilter === "available") {
+        filteredCars = VEHICLES_DATA.filter(car => !car.isSold);
+    } else if (showcaseFilter === "sold") {
+        filteredCars = VEHICLES_DATA.filter(car => car.isSold);
+    }
+
+    // Enforce platform limit of 15
+    filteredCars = filteredCars.slice(0, 15);
+
+    const totalFiltered = filteredCars.length;
+    const initialLimit = 6;
+
+    // 2. Slice if not showAllVehicles
+    let displayedCars = filteredCars;
+    if (!showAllVehicles && totalFiltered > initialLimit) {
+        displayedCars = filteredCars.slice(0, initialLimit);
+    }
+
+    // 3. Render displayed cards
+    displayedCars.forEach(car => {
         const card = document.createElement("div");
         card.className = `car-card ${car.isSold ? 'sold' : ''}`;
         
@@ -295,6 +392,11 @@ function renderVehicles() {
             <div class="car-img-wrap">
                 ${car.isSold ? `<span class="status-badge">${TRANSLATIONS[currentLang].btn_card_sold}</span>` : ''}
                 <img src="${car.image}" alt="${car.name}" loading="lazy">
+                
+                <!-- Logo overlay on Vitrine Card -->
+                <div class="card-logo-overlay logo-${STORE_SETTINGS.logoPosition || 'top-right'}">
+                    ${STORE_SETTINGS.logo ? `<img src="${STORE_SETTINGS.logo}" alt="Logo" class="card-logo-img">` : `<span class="card-logo-text">Apex <span>Motors</span></span>`}
+                </div>
             </div>
             <div class="car-info">
                 <h3>${car.name}</h3>
@@ -322,17 +424,79 @@ function renderVehicles() {
         `;
         grid.appendChild(card);
     });
+
+    // 4. Manage showcase expand button
+    const moreContainer = document.getElementById("showcase-more-container");
+    if (moreContainer) {
+        moreContainer.innerHTML = "";
+        const remaining = totalFiltered - displayedCars.length;
+        if (remaining > 0) {
+            const btn = document.createElement("button");
+            btn.className = "btn-showcase-more";
+            
+            // Dynamic text based on language
+            let btnText = "";
+            if (currentLang === "pt") {
+                btnText = `Ver Estoque Completo (+${remaining} veículos)`;
+            } else {
+                btnText = `Ver Inventario Completo (+${remaining} vehículos)`;
+            }
+
+            btn.innerHTML = `
+                ${btnText}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+            `;
+            btn.onclick = () => {
+                showAllVehicles = true;
+                renderVehicles();
+            };
+            moreContainer.appendChild(btn);
+        }
+    }
+}
+
+// Showcase filter change handler
+function changeShowcaseFilter(filter, el) {
+    showcaseFilter = filter;
+    showAllVehicles = false;
+
+    // Toggle active class on filter tab buttons
+    document.querySelectorAll(".showcase-filter-tab").forEach(tab => {
+        tab.classList.toggle("active", tab === el);
+    });
+
+    renderVehicles();
 }
 
 // Update WhatsApp template strings
 function updateLinks() {
+    const waNumber = STORE_SETTINGS.whatsapp || "595973977991";
+    
     // Vender Carro CTA link
     const sellBtn = document.getElementById("sell-car-cta");
     if (sellBtn) {
         const textPT = encodeURIComponent("Olá! Gostaria de receber uma avaliação para o meu veículo na Apex Motors.");
         const textES = encodeURIComponent("¡Hola! Me gustaría recibir una valoración para mi vehículo en Apex Motors.");
-        sellBtn.setAttribute("href", `https://wa.me/595973977991?text=${currentLang === 'pt' ? textPT : textES}`);
+        sellBtn.setAttribute("href", `https://wa.me/${waNumber}?text=${currentLang === 'pt' ? textPT : textES}`);
     }
+
+    // Dynamic replacement for any wa.me links in the header/hero/buttons
+    document.querySelectorAll("a[href*='wa.me']").forEach(link => {
+        try {
+            // Handle relative or protocol-less links gracefully
+            const hrefAttr = link.getAttribute("href");
+            if (hrefAttr.includes("wa.me")) {
+                let textParam = "";
+                const match = hrefAttr.match(/\?text=(.*)/);
+                if (match) {
+                    textParam = match[1];
+                }
+                link.href = `https://wa.me/${waNumber}${textParam ? '?text=' + textParam : ''}`;
+            }
+        } catch(e) {
+            link.href = `https://wa.me/${waNumber}`;
+        }
+    });
 }
 
 // Open whatsapp relative to vehicle
@@ -340,7 +504,7 @@ function contactCar(carName) {
     const textPT = encodeURIComponent(`Olá! Gostaria de mais informações sobre o veículo ${carName} anunciado na Apex Motors.`);
     const textES = encodeURIComponent(`¡Hola! Me gustaría más información sobre el vehículo ${carName} anunciado en Apex Motors.`);
     const text = currentLang === "pt" ? textPT : textES;
-    window.open(`https://wa.me/595973977991?text=${text}`, "_blank");
+    window.open(`https://wa.me/${STORE_SETTINGS.whatsapp || "595973977991"}?text=${text}`, "_blank");
 }
 
 // Calculator logic
@@ -451,7 +615,7 @@ function sendCalcToWhatsApp() {
     );
 
     const text = currentLang === "pt" ? textPT : textES;
-    window.open(`https://wa.me/595973977991?text=${text}`, "_blank");
+    window.open(`https://wa.me/${STORE_SETTINGS.whatsapp || "595973977991"}?text=${text}`, "_blank");
 }
 
 // Mobile Menu Toggle

@@ -3,7 +3,7 @@
     {
       "id": "porsche-911",
       "name": "Porsche 911 Carrera S",
-      "image": "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=800",
+      "image": "images/porsche_911.png",
       "isSold": false,
       "specs_pt": {
         "year": "2022/2023",
@@ -23,7 +23,7 @@
     {
       "id": "bmw-m3",
       "name": "BMW M3 Competition",
-      "image": "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800",
+      "image": "images/bmw_m3.png",
       "isSold": false,
       "specs_pt": {
         "year": "2021/2022",
@@ -43,7 +43,7 @@
     {
       "id": "audi-rs6",
       "name": "Audi RS6 Avant GP Edition",
-      "image": "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800",
+      "image": "images/audi_rs6.png",
       "isSold": true,
       "specs_pt": {
         "year": "2020/2021",
