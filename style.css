@@ -1015,3 +1015,10 @@ footer {
 .accent-destaque {
     --category-accent: #D4AF37;
 }
+
+/* Garante contraste nos dropdowns de seleção (options) */
+select option {
+    background-color: var(--bg-card, #121212);
+    color: var(--text-main, #ffffff);
+}
+

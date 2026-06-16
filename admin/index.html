@@ -579,6 +579,12 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
+        /* Garante contraste nos dropdowns de seleção (options) */
+        select option {
+            background-color: var(--bg-card, #121212);
+            color: var(--text-main, #ffffff);
+        }
+
         .form-group input[readonly] {
             background: rgba(255,255,255,0.01);
             color: var(--text-muted);
@@ -853,38 +859,44 @@
             <div class="sidebar-brand" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                 <div>
                     <h2>Apex <span>Motors</span></h2>
-                    <p>Painel de Controle</p>
+                    <p data-i18n="admin_panel_title">Painel de Controle</p>
                 </div>
                 <button class="mobile-toggle" onclick="toggleSidebar()" style="display: none; padding: 0.5rem; color: var(--text-muted); font-size: 1.8rem;" id="sidebar-close-btn">×</button>
+            </div>
+            
+            <!-- Language Switcher in Admin Sidebar -->
+            <div class="lang-switcher" style="margin-bottom: 2.2rem; margin-top: -1.5rem; width: fit-content; padding: 2px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-card); border-radius: 50px; display: flex; gap: 2px; align-self: flex-start; margin-left: 0.5rem;">
+                <button class="lang-btn active" data-lang="pt" onclick="setLanguage('pt')" style="background: transparent; border: none; color: var(--text-muted); padding: 4px 12px; border-radius: 50px; cursor: pointer; font-family: var(--font); font-size: 0.75rem; font-weight: 700; transition: var(--transition-smooth);">PT</button>
+                <button class="lang-btn" data-lang="es" onclick="setLanguage('es')" style="background: transparent; border: none; color: var(--text-muted); padding: 4px 12px; border-radius: 50px; cursor: pointer; font-family: var(--font); font-size: 0.75rem; font-weight: 700; transition: var(--transition-smooth);">ES</button>
             </div>
             
             <nav class="sidebar-nav">
                 <button class="sidebar-link active" onclick="setFilterTab('all', this)">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                    Painel Geral
+                    <span data-i18n="sidebar_general">Painel Geral</span>
                 </button>
                 <button class="sidebar-link" onclick="openModal()" id="btn-add-sidebar">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-                    Adicionar Veículo
+                    <span data-i18n="sidebar_add_vehicle">Adicionar Veículo</span>
                 </button>
                 <button class="sidebar-link" onclick="exportJSON()">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                    Exportar JSON
+                    <span data-i18n="sidebar_export_json">Exportar JSON</span>
                 </button>
                 <button class="sidebar-link" onclick="openSettingsModal()">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.1a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                    Configurar Logo/WhatsApp
+                    <span data-i18n="sidebar_config_store">Configurar Logo/WhatsApp</span>
                 </button>
                 <button class="sidebar-link" onclick="resetToDefault()" style="color: #ff6666; margin-top: auto;">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>
-                    Resetar Estoque
+                    <span data-i18n="sidebar_reset_stock">Resetar Estoque</span>
                 </button>
             </nav>
 
             <div class="sidebar-footer">
                 <a href="../index.html" class="sidebar-link">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    Voltar para o Site
+                    <span data-i18n="sidebar_back_to_site">Voltar para o Site</span>
                 </a>
             </div>
         </aside>
@@ -895,12 +907,12 @@
             <!-- Dashboard Top Header -->
             <div class="dashboard-header">
                 <div class="dashboard-title">
-                    <h1>Gerenciamento de Estoque</h1>
-                    <p>Controle de veículos, especificações e preços da Apex Motors.</p>
+                    <h1 data-i18n="admin_title">Gerenciamento de Estoque</h1>
+                    <p data-i18n="admin_subtitle">Controle de veículos, especificações e preços da Apex Motors.</p>
                 </div>
                 <button onclick="openModal()" class="btn-primary" id="btn-add-header">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 4px;"><path d="M12 5v14M5 12h14"/></svg>
-                    Adicionar Veículo
+                    <span data-i18n="btn_add_vehicle">Adicionar Veículo</span>
                 </button>
             </div>
 
@@ -908,11 +920,11 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-info" style="width: 100%;">
-                        <span class="stat-label">Total em Estoque</span>
+                        <span class="stat-label" data-i18n="stat_total_stock">Total em Estoque</span>
                         <span class="stat-value" id="stat-total">0</span>
                         <div class="capacity-container">
                             <div class="capacity-info">
-                                <span>Capacidade do Site</span>
+                                <span data-i18n="stat_capacity">Capacidade do Site</span>
                                 <span id="capacity-percentage">0%</span>
                             </div>
                             <div class="capacity-bar">
@@ -926,7 +938,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
-                        <span class="stat-label">Disponíveis</span>
+                        <span class="stat-label" data-i18n="stat_available">Disponíveis</span>
                         <span class="stat-value" id="stat-available" style="color: #2ecc71;">0</span>
                     </div>
                     <div class="stat-icon" style="color: #2ecc71; background: rgba(46, 204, 113, 0.1);">
@@ -935,7 +947,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
-                        <span class="stat-label">Vendidos</span>
+                        <span class="stat-label" data-i18n="stat_sold">Vendidos</span>
                         <span class="stat-value" id="stat-sold" style="color: #e74c3c;">0</span>
                     </div>
                     <div class="stat-icon" style="color: #e74c3c; background: rgba(231, 76, 60, 0.1);">
@@ -952,9 +964,9 @@
                 </div>
                 
                 <div class="filter-tabs">
-                    <button class="filter-tab active" onclick="setFilterStatus('all', this)" id="btn-filter-all">Todos</button>
-                    <button class="filter-tab" onclick="setFilterStatus('available', this)">Disponíveis</button>
-                    <button class="filter-tab" onclick="setFilterStatus('sold', this)">Vendidos</button>
+                    <button class="filter-tab active" onclick="setFilterStatus('all', this)" id="btn-filter-all" data-i18n="filter_all">Todos</button>
+                    <button class="filter-tab" onclick="setFilterStatus('available', this)" data-i18n="filter_available">Disponíveis</button>
+                    <button class="filter-tab" onclick="setFilterStatus('sold', this)" data-i18n="filter_sold">Vendidos</button>
                 </div>
             </div>
 
@@ -1035,53 +1047,37 @@
                         </div>
                     </div>
 
-                    <!-- Portuguese Specifications -->
-                    <div class="lang-section">
-                        <h4>🇧🇷 Especificações (Português)</h4>
+                    <!-- Specifications -->
+                    <div class="lang-section" style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <h4 style="grid-column: 1 / -1;" data-i18n="section_specs">Especificações do Veículo</h4>
                         
                         <div class="form-group">
-                            <label for="car-year-pt">Ano/Modelo</label>
-                            <input type="text" id="car-year-pt" required placeholder="Ex: 2022/2023">
+                            <label for="car-year" data-i18n="label_year">Ano/Modelo</label>
+                            <input type="text" id="car-year" required placeholder="Ex: 2022/2023">
                         </div>
                         
                         <div class="form-group">
-                            <label for="car-km-pt">Quilometragem</label>
-                            <input type="text" id="car-km-pt" required placeholder="Ex: 8.500 km">
+                            <label for="car-km" data-i18n="label_km">Quilometragem</label>
+                            <input type="text" id="car-km" required placeholder="Ex: 8.500 km">
                         </div>
                         
                         <div class="form-group">
-                            <label for="car-transmission-pt">Câmbio</label>
-                            <input type="text" id="car-transmission-pt" required placeholder="Ex: PDK Automático">
+                            <label for="car-transmission" data-i18n="label_transmission">Câmbio</label>
+                            <input type="text" id="car-transmission" required placeholder="Ex: PDK Automático">
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="car-price-pt">Preço em R$</label>
-                            <input type="text" id="car-price-pt" required placeholder="Ex: R$ 899.900">
-                        </div>
-                    </div>
 
-                    <!-- Spanish Specifications -->
-                    <div class="lang-section">
-                        <h4>🇪🇸 Especificaciones (Español)</h4>
-                        
                         <div class="form-group">
-                            <label for="car-year-es">Año/Modelo</label>
-                            <input type="text" id="car-year-es" required placeholder="Ex: 2022/2023">
+                            <label for="car-currency" data-i18n="label_currency">Moeda</label>
+                            <select id="car-currency" required onchange="handleCurrencyChange()">
+                                <option value="BRL">Real Brasileiro (BRL - R$)</option>
+                                <option value="USD">Dólar Americano (USD - US$)</option>
+                                <option value="PYG">Guarani Paraguaio (PYG - Gs)</option>
+                            </select>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="car-km-es">Kilometraje</label>
-                            <input type="text" id="car-km-es" required placeholder="Ex: 8.500 km">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="car-transmission-es">Transmisión</label>
-                            <input type="text" id="car-transmission-es" required placeholder="Ex: PDK Automático">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="car-price-es">Precio en USD</label>
-                            <input type="text" id="car-price-es" required placeholder="Ex: USD 165.000">
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="car-price" data-i18n="label_price">Preço</label>
+                            <input type="text" id="car-price" required placeholder="Ex: 110000">
                         </div>
                     </div>
 
@@ -1299,6 +1295,354 @@
     </div>
 
     <script>
+        const CURRENCIES = {
+            BRL: { code: 'BRL', symbol: 'R$', name: 'Real Brasileiro' },
+            USD: { code: 'USD', symbol: 'US$', name: 'Dólar Americano' },
+            PYG: { code: 'PYG', symbol: 'Gs', name: 'Guarani Paraguaio' }
+        };
+
+        function formatCurrencyValue(value, currencyCode) {
+            const num = Number(value) || 0;
+            const currency = CURRENCIES[currencyCode] || { symbol: currencyCode };
+            return `${currency.symbol} ${num.toLocaleString('pt-BR')}`;
+        }
+
+        function formatKm(km) {
+            if (typeof km === 'number') {
+                return km.toLocaleString('pt-BR') + ' km';
+            }
+            if (typeof km === 'string' && km.toLowerCase().includes('km')) {
+                return km;
+            }
+            const num = parseInt(String(km).replace(/\D/g, ""), 10);
+            if (!isNaN(num)) {
+                return num.toLocaleString('pt-BR') + ' km';
+            }
+            return km || "0 km";
+        }
+
+        function migrateVehicle(car) {
+            if (car.currency && car.specs && typeof car.specs.year !== 'undefined') {
+                return car;
+            }
+            
+            // Parse price and currency from legacy price structure
+            let legacyPriceStr = "";
+            if (car.price) {
+                if (typeof car.price === 'object') {
+                    legacyPriceStr = car.price.pt || car.price.es || "";
+                } else {
+                    legacyPriceStr = String(car.price);
+                }
+            }
+            
+            let currency = "BRL";
+            let priceVal = 0;
+            
+            if (legacyPriceStr) {
+                const cleanPrice = legacyPriceStr.replace(/\D/g, "");
+                priceVal = parseInt(cleanPrice, 10) || 0;
+                
+                if (legacyPriceStr.includes("US$") || legacyPriceStr.toLowerCase().includes("usd")) {
+                    currency = "USD";
+                } else if (legacyPriceStr.includes("Gs") || legacyPriceStr.toLowerCase().includes("pyg")) {
+                    currency = "PYG";
+                } else {
+                    currency = "BRL";
+                }
+            }
+            
+            // Parse specs
+            let year = "";
+            let km = "";
+            let transmission = "";
+            
+            if (car.specs_pt) {
+                year = car.specs_pt.year || "";
+                km = car.specs_pt.km || "";
+                transmission = car.specs_pt.transmission || "";
+            } else if (car.specs_es) {
+                year = car.specs_es.year || "";
+                km = car.specs_es.km || "";
+                transmission = car.specs_es.transmission || "";
+            } else if (car.specs) {
+                const specSrc = car.specs.pt || car.specs.es || car.specs;
+                year = specSrc.year || "";
+                km = specSrc.km || "";
+                transmission = specSrc.transmission || "";
+            }
+            
+            if (typeof km === 'string') {
+                const cleanKm = km.replace(/\D/g, "");
+                km = parseInt(cleanKm, 10) || 0;
+            }
+            
+            return {
+                id: car.id,
+                name: car.name,
+                image: car.image,
+                isSold: !!car.isSold,
+                category: car.category || "feirao",
+                currency: currency,
+                price: priceVal,
+                specs: {
+                    year: year,
+                    km: km,
+                    transmission: transmission
+                }
+            };
+        }
+
+        const TRANSLATIONS = {
+            pt: {
+                admin_title: "Gerenciamento de Estoque",
+                admin_subtitle: "Controle de veículos, especificações e preços da Apex Motors.",
+                btn_add_vehicle: "Adicionar Veículo",
+                stat_total_stock: "Total em Estoque",
+                stat_capacity: "Capacidade do Site",
+                stat_available: "Disponíveis",
+                stat_sold: "Vendidos",
+                search_placeholder: "Buscar veículo pelo nome ou ID...",
+                filter_all: "Todos",
+                filter_available: "Disponíveis",
+                filter_sold: "Vendidos",
+                btn_edit: "Editar",
+                btn_delete: "Excluir",
+                btn_download_arts: "🎨 Baixar Artes",
+                art_campaign_label: "Tema / Categoria:",
+                art_card: "🎴 Card da Vitrine",
+                art_instagram: "📸 Instagram Feed (1080x1080)",
+                art_whatsapp: "💬 WhatsApp Status (1080x1920)",
+                art_facebook: "👥 Facebook Post (1200x630)",
+                modal_title_add: "Adicionar Novo Veículo",
+                modal_title_edit: "Editar Veículo",
+                label_car_name: "Nome do Veículo",
+                label_car_id: "ID Único (Slug do Sistema)",
+                label_car_id_title: "Apenas letras minúsculas, números e traços. Sem espaços.",
+                label_car_image: "Foto do Carro",
+                upload_local_title: "Upload de Imagem Local",
+                upload_local_desc: "Arraste uma foto aqui ou clique para selecionar (PNG, JPG, WEBP)",
+                label_external_url: "Ou cole uma URL de imagem externa",
+                label_photo_status: "Status da Foto",
+                label_photo_empty: "Nenhuma foto selecionada",
+                btn_crop_adjust: "✂️ Ajustar Recorte",
+                label_sold_status: "Vendido / Indisponível",
+                label_sold_desc: "Se ativado, o veículo aparecerá com marcação de \"Vendido\" e o botão de WhatsApp bloqueado.",
+                section_specs: "Especificações do Veículo",
+                label_year: "Ano/Modelo",
+                label_km: "Quilometragem",
+                label_transmission: "Câmbio",
+                label_currency: "Moeda",
+                label_price: "Preço",
+                btn_cancel: "Cancelar",
+                btn_save: "Salvar Veículo",
+                btn_save_settings: "Salvar Configurações",
+                toast_saved: "Salvo com sucesso!",
+                toast_updated: "Veículo atualizado com sucesso!",
+                toast_added: "Veículo adicionado com sucesso!",
+                toast_deleted: "Veículo excluído com sucesso!",
+                toast_error_limit: "Erro: Limite de 15 veículos atingido. Remova algum veículo para adicionar novos.",
+                toast_error_duplicate: "Erro: Já existe um veículo com este ID único. Escolha outro ID.",
+                toast_error_photo: "Por favor, envie uma foto ou adicione uma URL válida para a imagem.",
+                toast_crop_success: "Corte de imagem aplicado com sucesso!",
+                toast_crop_error: "Erro ao processar o corte da imagem.",
+                toast_art_success: "Arte gerada com sucesso!",
+                toast_art_error: "Erro ao gerar arte.",
+                confirm_delete: "Tem certeza que deseja excluir este veículo?",
+                confirm_reset: "Tem certeza que deseja redefinir o estoque para os padrões de fábrica? Isso apagará todas as suas alterações locais.",
+                
+                // Settings Modal
+                settings_modal_title: "Configurações da Loja & Logo",
+                settings_whatsapp_label: "WhatsApp da Loja (com DDI)",
+                settings_whatsapp_desc: "Este número será utilizado nos links e nos botões de contato do site.",
+                settings_logo_label: "Logo da Loja (PNG ou SVG)",
+                settings_logo_upload_title: "Upload da Logo",
+                settings_logo_upload_desc: "Arraste a logo aqui ou clique para selecionar (PNG ou SVG recomendados)",
+                settings_logo_status: "Status da Logo",
+                settings_logo_empty: "Nenhuma logo personalizada",
+                settings_logo_position_label: "Posição Padrão da Logo nas Artes",
+                
+                // Crop Modal
+                crop_modal_title: "Ajustar e Recortar Foto",
+                crop_aspect_label: "Proporção de Recorte:",
+                crop_aspect_free: "🔓 Livre",
+                crop_aspect_square: "🔲 Quadrado (1:1)",
+                crop_aspect_portrait: "📸 Retrato (4:5)",
+                crop_aspect_landscape: "🖥️ Paisagem (16:9)",
+                crop_btn_zoom_in: "🔍 Aumentar",
+                crop_btn_zoom_out: "🔍 Diminuir",
+                crop_btn_rotate_left: "🔄 Girar Esq",
+                crop_btn_rotate_right: "🔄 Girar Dir",
+                crop_btn_reset: "🔄 Redefinir",
+                crop_btn_apply: "Aplicar Corte",
+                
+                // Art Preview Modal
+                art_preview_modal_title: "Arte Gerada com Sucesso!",
+                art_preview_subtitle: "Sua arte está pronta para compartilhamento.",
+                art_preview_instructions: "Se o download não iniciou automaticamente, clique no botão de download abaixo.<br><strong>No celular:</strong> você também pode pressionar e segurar o dedo sobre a imagem acima para salvá-la diretamente na sua galeria.",
+                art_preview_btn_download: "📥 Baixar PNG",
+                art_preview_btn_close: "Fechar",
+                
+                // Sidebar links
+                sidebar_general: "Painel Geral",
+                sidebar_add_vehicle: "Adicionar Veículo",
+                sidebar_export_json: "Exportar JSON",
+                sidebar_config_store: "Configurar Logo/WhatsApp",
+                sidebar_reset_stock: "Resetar Estoque",
+                sidebar_back_to_site: "Voltar para o Site",
+                admin_panel_title: "Painel de Controle"
+            },
+            es: {
+                admin_title: "Gestión de Inventario",
+                admin_subtitle: "Control de vehículos, especificaciones y precios de Apex Motors.",
+                btn_add_vehicle: "Añadir Vehículo",
+                stat_total_stock: "Total en Inventario",
+                stat_capacity: "Capacidad del Sitio",
+                stat_available: "Disponibles",
+                stat_sold: "Vendidos",
+                search_placeholder: "Buscar vehículo por nombre o ID...",
+                filter_all: "Todos",
+                filter_available: "Disponibles",
+                filter_sold: "Vendidos",
+                btn_edit: "Editar",
+                btn_delete: "Eliminar",
+                btn_download_arts: "🎨 Descargar Artes",
+                art_campaign_label: "Tema / Categoría:",
+                art_card: "🎴 Tarjeta de Vitrina",
+                art_instagram: "📸 Feed de Instagram (1080x1080)",
+                art_whatsapp: "💬 Estado de WhatsApp (1080x1920)",
+                art_facebook: "👥 Publicación de Facebook (1200x630)",
+                modal_title_add: "Añadir Nuevo Vehículo",
+                modal_title_edit: "Editar Vehículo",
+                label_car_name: "Nombre del Vehículo",
+                label_car_id: "ID Único (Slug del Sistema)",
+                label_car_id_title: "Solo letras minúsculas, números y guiones. Sin espacios.",
+                label_car_image: "Foto del Auto",
+                upload_local_title: "Subir Imagen Local",
+                upload_local_desc: "Arrastre una foto aquí o haga clic para seleccionar (PNG, JPG, WEBP)",
+                label_external_url: "O pegue una URL de imagen externa",
+                label_photo_status: "Estado de la Foto",
+                label_photo_empty: "Ninguna foto seleccionada",
+                btn_crop_adjust: "✂️ Ajustar Recorte",
+                label_sold_status: "Vendido / No Disponible",
+                label_sold_desc: "Si está activo, el vehículo aparecerá marcado como \"Vendido\" y el botón de WhatsApp estará bloqueado.",
+                section_specs: "Especificaciones del Vehículo",
+                label_year: "Año/Modelo",
+                label_km: "Kilometraje",
+                label_transmission: "Transmisión",
+                label_currency: "Moneda",
+                label_price: "Precio",
+                btn_cancel: "Cancelar",
+                btn_save: "Guardar Vehículo",
+                btn_save_settings: "Guardar Configuraciones",
+                toast_saved: "¡Guardado con éxito!",
+                toast_updated: "¡Vehículo actualizado con éxito!",
+                toast_added: "¡Vehículo añadido con éxito!",
+                toast_deleted: "¡Vehículo eliminado con éxito!",
+                toast_error_limit: "Error: Límite de 15 vehículos alcanzado. Elimine algún vehículo para añadir nuevos.",
+                toast_error_duplicate: "Error: Ya existe un vehículo con este ID único. Elija otro ID.",
+                toast_error_photo: "Por favor, suba una foto o agregue una URL válida para la imagen.",
+                toast_crop_success: "¡Recorte de imagen aplicado con éxito!",
+                toast_crop_error: "Error al procesar el recorte de la imagen.",
+                toast_art_success: "¡Arte generado con éxito!",
+                toast_art_error: "Error al generar el arte.",
+                confirm_delete: "¿Está seguro de que desea eliminar este vehículo?",
+                confirm_reset: "¿Está seguro de que desea restablecer el inventario a los valores predeterminados? Esto borrará todos sus cambios locales.",
+                
+                // Settings Modal
+                settings_modal_title: "Configuración de Tienda y Logo",
+                settings_whatsapp_label: "WhatsApp de la Tienda (con DDI)",
+                settings_whatsapp_desc: "Este número se utilizará en los enlaces y botones de contacto del sitio.",
+                settings_logo_label: "Logo de la Tienda (PNG o SVG)",
+                settings_logo_upload_title: "Subir Logo",
+                settings_logo_upload_desc: "Arrastre el logo aquí o haga clic para seleccionar (Se recomiendan PNG o SVG)",
+                settings_logo_status: "Estado del Logo",
+                settings_logo_empty: "Ningún logo personalizado",
+                settings_logo_position_label: "Posición Predeterminada del Logo en Artes",
+                
+                // Crop Modal
+                crop_modal_title: "Ajustar y Recortar Foto",
+                crop_aspect_label: "Proporción de Recorte:",
+                crop_aspect_free: "🔓 Libre",
+                crop_aspect_square: "🔲 Cuadrado (1:1)",
+                crop_aspect_portrait: "📸 Retrato (4:5)",
+                crop_aspect_landscape: "🖥️ Paisaje (16:9)",
+                crop_btn_zoom_in: "🔍 Ampliar",
+                crop_btn_zoom_out: "🔍 Reducir",
+                crop_btn_rotate_left: "🔄 Girar Izq",
+                crop_btn_rotate_right: "🔄 Girar Der",
+                crop_btn_reset: "🔄 Restablecer",
+                crop_btn_apply: "Aplicar Recorte",
+                
+                // Art Preview Modal
+                art_preview_modal_title: "¡Arte Generado con Éxito!",
+                art_preview_subtitle: "Su arte está listo para ser compartido.",
+                art_preview_instructions: "Si la descarga no se inició automáticamente, haga clic en el botón de descarga a continuación.<br><strong>En el celular:</strong> también puede mantener presionado el dedo sobre la imagen de arriba para guardarla directamente en su galería.",
+                art_preview_btn_download: "📥 Descargar PNG",
+                art_preview_btn_close: "Cerrar",
+                
+                // Sidebar links
+                sidebar_general: "Panel General",
+                sidebar_add_vehicle: "Añadir Vehículo",
+                sidebar_export_json: "Exportar JSON",
+                sidebar_config_store: "Configurar Logo/WhatsApp",
+                sidebar_reset_stock: "Restablecer Inventario",
+                sidebar_back_to_site: "Volver al Sitio",
+                admin_panel_title: "Panel de Control"
+            }
+        };
+
+        let currentLang = "pt";
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem("apex_motors_admin_lang", lang);
+            
+            // Alterna a classe ativa nos botões seletores de idioma
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+            });
+            
+            // Atualiza os textos marcados com data-i18n
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+                    if (el.tagName === 'INPUT') {
+                        if (el.placeholder) el.placeholder = TRANSLATIONS[lang][key];
+                        if (el.title) el.title = TRANSLATIONS[lang][key];
+                    } else {
+                        el.innerHTML = TRANSLATIONS[lang][key];
+                    }
+                }
+            });
+            
+            // Caso especial do placeholder de pesquisa
+            const searchInput = document.getElementById("search-input");
+            if (searchInput) {
+                searchInput.placeholder = TRANSLATIONS[lang].search_placeholder;
+            }
+
+            renderCarList();
+            updateCapacityAndButtons();
+        }
+
+        // Formatação da máscara de preço enquanto digita
+        function formatPriceInput(inputVal, currencyCode) {
+            const cleanVal = inputVal.replace(/\D/g, "");
+            if (!cleanVal) return "";
+            const num = parseInt(cleanVal, 10);
+            const currency = CURRENCIES[currencyCode] || { symbol: currencyCode };
+            return `${currency.symbol} ${num.toLocaleString('pt-BR')}`;
+        }
+
+        function handleCurrencyChange() {
+            const currencySelect = document.getElementById("car-currency");
+            const priceInput = document.getElementById("car-price");
+            if (currencySelect && priceInput) {
+                priceInput.value = formatPriceInput(priceInput.value, currencySelect.value);
+            }
+        }
+
         let vehicles = [];
         let cropper = null;
         let originalFileName = "";
@@ -1496,6 +1840,36 @@
             initLogoDropzone();
             loadInventory();
             loadSettings();
+
+            // Configura a máscara automática de preço enquanto digita
+            const priceInput = document.getElementById("car-price");
+            if (priceInput) {
+                priceInput.addEventListener("input", function(e) {
+                    const currencySelect = document.getElementById("car-currency");
+                    const currencyCode = currencySelect ? currencySelect.value : "BRL";
+                    
+                    const start = this.selectionStart;
+                    const oldLen = this.value.length;
+                    
+                    const formatted = formatPriceInput(this.value, currencyCode);
+                    this.value = formatted;
+                    
+                    const newLen = this.value.length;
+                    this.selectionStart = this.selectionEnd = start + (newLen - oldLen);
+                });
+            }
+
+            // Carrega e aplica o idioma administrativo
+            const savedLang = localStorage.getItem("apex_motors_admin_lang");
+            if (savedLang) {
+                currentLang = savedLang;
+            } else {
+                const browserLang = navigator.language || navigator.userLanguage;
+                if (browserLang.startsWith("es")) {
+                    currentLang = "es";
+                }
+            }
+            setLanguage(currentLang);
         });
 
         // Load Stock data
@@ -1505,7 +1879,7 @@
                 if (localData) {
                     const parsed = JSON.parse(localData);
                     if (parsed && parsed.vehicles) {
-                        vehicles = parsed.vehicles.slice(0, 15);
+                        vehicles = parsed.vehicles.slice(0, 15).map(migrateVehicle);
                         
                         // Migrate legacy unsplash images to premium local high-res images
                         let migrated = false;
@@ -1523,9 +1897,8 @@
                                 }
                             }
                         });
-                        if (migrated) {
-                            saveToLocalStorage(false);
-                        }
+                        
+                        saveToLocalStorage(false);
 
                         renderCarList();
                         updateCapacityAndButtons();
@@ -1538,7 +1911,7 @@
                 if (response.ok) {
                     const data = await response.json();
                     if (data && data.vehicles) {
-                        vehicles = data.vehicles.slice(0, 15);
+                        vehicles = data.vehicles.slice(0, 15).map(migrateVehicle);
                         // Store it locally for further customization
                         saveToLocalStorage(false);
                     }
@@ -1646,56 +2019,59 @@
             if (filtered.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state">
-                        <h3>Nenhum veículo encontrado</h3>
-                        <p>Nenhum veículo corresponde aos filtros selecionados.</p>
-                        ${activeSearchQuery || activeFilterStatus !== 'all' ? '<button onclick="resetFilters()" class="btn-secondary" style="padding: 0.7rem 1.5rem;">Limpar Filtros</button>' : '<button onclick="openModal()" class="btn-primary" style="padding: 0.7rem 1.5rem;">Adicionar Veículo</button>'}
+                        <h3 data-i18n="empty_title">${currentLang === 'pt' ? 'Nenhum veículo encontrado' : 'Ningún vehículo encontrado'}</h3>
+                        <p data-i18n="empty_desc">${currentLang === 'pt' ? 'Nenhum veículo corresponde aos filtros selecionados.' : 'Ningún vehículo corresponde a los filtros seleccionados.'}</p>
+                        ${activeSearchQuery || activeFilterStatus !== 'all' ? `<button onclick="resetFilters()" class="btn-secondary" style="padding: 0.7rem 1.5rem;" data-i18n="btn_clear_filters">${currentLang === 'pt' ? 'Limpar Filtros' : 'Limpiar Filtros'}</button>` : `<button onclick="openModal()" class="btn-primary" style="padding: 0.7rem 1.5rem;" data-i18n="btn_add_vehicle">${TRANSLATIONS[currentLang].btn_add_vehicle}</button>`}
                     </div>
                 `;
                 return;
             }
 
             grid.innerHTML = "";
-            filtered.forEach(car => {
+            filtered.forEach(rawCar => {
+                const car = migrateVehicle(rawCar);
                 const card = document.createElement("div");
                 card.className = "admin-car-card";
                 
+                const priceText = formatCurrencyValue(car.price, car.currency);
+                const kmText = formatKm(car.specs.km);
+
                 card.innerHTML = `
                     <div class="admin-car-img">
-                        ${car.isSold ? '<span class="admin-badge-sold">Vendido</span>' : ''}
+                        ${car.isSold ? `<span class="admin-badge-sold" data-i18n="btn_card_sold">${TRANSLATIONS[currentLang].btn_card_sold}</span>` : ''}
                         <img src="${car.image || 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23333\' stroke-width=\'2\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\' ry=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg>'}" alt="${car.name}">
                     </div>
                     <div class="admin-car-info">
                         <h3>${car.name}</h3>
                         <span class="admin-car-id">${car.id}</span>
                         <div class="admin-car-specs-summary">
-                            <span>📅 ${car.specs_pt.year}</span>
-                            <span>⚡ ${car.specs_pt.km}</span>
-                            <span>⚙️ ${car.specs_pt.transmission.split(' ')[0]}</span>
+                            <span>📅 ${car.specs.year}</span>
+                            <span>⚡ ${kmText}</span>
+                            <span>⚙️ ${car.specs.transmission.split(' ')[0]}</span>
                         </div>
-                        <div class="admin-car-prices-summary">
-                            <span>🇧🇷 <strong class="price-tag">${car.price.pt}</strong></span>
-                            <span>🇪🇸 <strong class="price-tag">${car.price.es}</strong></span>
+                        <div class="admin-car-prices-summary" style="justify-content: flex-start; gap: 0.5rem;">
+                            <span><strong class="price-tag">${priceText}</strong></span>
                         </div>
                     </div>
                     <div class="admin-card-actions" style="flex-wrap: wrap;">
-                        <button class="btn-secondary" onclick="openModal('${car.id}')" style="flex: 1 1 calc(50% - 0.3rem);">Editar</button>
-                        <button class="btn-secondary btn-delete" onclick="deleteCar('${car.id}')" style="flex: 1 1 calc(50% - 0.3rem);">Excluir</button>
-                        <button class="btn-primary" onclick="toggleCardArtesMenu('${car.id}', this)" style="flex: 1 1 100%; margin-top: 0.4rem; padding: 0.5rem; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                            🎨 Baixar Artes
+                        <button class="btn-secondary" onclick="openModal('${car.id}')" style="flex: 1 1 calc(50% - 0.3rem);" data-i18n="btn_edit">${TRANSLATIONS[currentLang].btn_edit}</button>
+                        <button class="btn-secondary btn-delete" onclick="deleteCar('${car.id}')" style="flex: 1 1 calc(50% - 0.3rem);" data-i18n="btn_delete">${TRANSLATIONS[currentLang].btn_delete}</button>
+                        <button class="btn-primary" onclick="toggleCardArtesMenu('${car.id}', this)" style="flex: 1 1 100%; margin-top: 0.4rem; padding: 0.5rem; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 4px;" data-i18n="btn_download_arts">
+                            ${TRANSLATIONS[currentLang].btn_download_arts}
                         </button>
                         <div id="artes-menu-${car.id}" class="card-artes-menu" style="display: none; width: 100%; margin-top: 0.4rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 0.5rem; gap: 0.4rem; flex-direction: column;">
                             <div style="display: flex; flex-direction: column; width: 100%; margin-bottom: 0.2rem; gap: 0.2rem;">
-                                <label style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Tema / Categoria:</label>
+                                <label style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="art_campaign_label">${TRANSLATIONS[currentLang].art_campaign_label}</label>
                                 <select id="categoria-select-${car.id}" style="background: rgba(0,0,0,0.6); border: 1px solid var(--border-card); color: var(--text-main); font-size: 0.8rem; padding: 0.4rem; border-radius: 4px; font-family: var(--font); width: 100%;" onchange="updateCarCategory('${car.id}', this.value)">
                                     <option value="feirao" ${car.category === 'feirao' ? 'selected' : ''}>🔥 Feirão</option>
                                     <option value="oferta" ${car.category === 'oferta' ? 'selected' : ''}>🏷️ Oferta</option>
                                     <option value="destaque" ${car.category === 'destaque' ? 'selected' : ''}>⭐ Destaque</option>
                                 </select>
                             </div>
-                            <button type="button" class="sidebar-link" onclick="generateArtDirect('${car.id}', 'card')" style="padding: 0.4rem; font-size: 0.8rem; text-align: center; justify-content: center; width: 100%; font-weight: 600;">🎴 Card da Vitrine</button>
-                            <button type="button" class="sidebar-link" onclick="generateArtDirect('${car.id}', 'instagram')" style="padding: 0.4rem; font-size: 0.8rem; text-align: center; justify-content: center; width: 100%; font-weight: 600;">📸 Instagram Feed (1080x1080)</button>
-                            <button type="button" class="sidebar-link" onclick="generateArtDirect('${car.id}', 'whatsapp')" style="padding: 0.4rem; font-size: 0.8rem; text-align: center; justify-content: center; width: 100%; font-weight: 600;">💬 WhatsApp Status (1080x1920)</button>
-                            <button type="button" class="sidebar-link" onclick="generateArtDirect('${car.id}', 'facebook')" style="padding: 0.4rem; font-size: 0.8rem; text-align: center; justify-content: center; width: 100%; font-weight: 600;">👥 Facebook Post (1200x630)</button>
+                            <button type="button" class="sidebar-link" onclick="generateArtDirect('${car.id}', 'card')" style="padding: 0.4rem; font-size: 0.8rem; text-align: center; justify-content: center; width: 100%; font-weight: 600;" data-i18n="art_card">${TRANSLATIONS[currentLang].art_card}</button>
+                            <button type="button" class="sidebar-link" onclick="generateArtDirect('${car.id}', 'instagram')" style="padding: 0.4rem; font-size: 0.8rem; text-align: center; justify-content: center; width: 100%; font-weight: 600;" data-i18n="art_instagram">${TRANSLATIONS[currentLang].art_instagram}</button>
+                            <button type="button" class="sidebar-link" onclick="generateArtDirect('${car.id}', 'whatsapp')" style="padding: 0.4rem; font-size: 0.8rem; text-align: center; justify-content: center; width: 100%; font-weight: 600;" data-i18n="art_whatsapp">${TRANSLATIONS[currentLang].art_whatsapp}</button>
+                            <button type="button" class="sidebar-link" onclick="generateArtDirect('${car.id}', 'facebook')" style="padding: 0.4rem; font-size: 0.8rem; text-align: center; justify-content: center; width: 100%; font-weight: 600;" data-i18n="art_facebook">${TRANSLATIONS[currentLang].art_facebook}</button>
                         </div>
                     </div>
                 `;
@@ -1714,17 +2090,18 @@
             form.reset();
             // Reset image previews
             document.getElementById("image-preview-element").src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><polyline points='21 15 16 10 5 21'/></svg>";
-            document.getElementById("image-size-info").innerText = "Nenhuma foto selecionada";
+            document.getElementById("image-size-info").innerText = TRANSLATIONS[currentLang].label_photo_empty;
             if (cropBtn) cropBtn.style.display = "none";
 
             if (carId) {
                 isEditing = true;
                 activeEditId = carId;
-                modalTitle.innerText = "Editar Veículo";
+                modalTitle.innerText = TRANSLATIONS[currentLang].modal_title_edit;
                 idInput.readOnly = true;
 
-                const car = vehicles.find(c => c.id === carId);
-                if (car) {
+                const rawCar = vehicles.find(c => c.id === carId);
+                if (rawCar) {
+                    const car = migrateVehicle(rawCar);
                     document.getElementById("car-name").value = car.name;
                     idInput.value = car.id;
                     document.getElementById("car-image-url").value = car.image.startsWith("data:") ? "" : car.image;
@@ -1736,17 +2113,18 @@
                         categorySelect.value = car.category || "feirao";
                     }
                     
-                    // PT Specs
-                    document.getElementById("car-year-pt").value = car.specs_pt.year;
-                    document.getElementById("car-km-pt").value = car.specs_pt.km;
-                    document.getElementById("car-transmission-pt").value = car.specs_pt.transmission;
-                    document.getElementById("car-price-pt").value = car.price.pt;
-
-                    // ES Specs
-                    document.getElementById("car-year-es").value = car.specs_es.year;
-                    document.getElementById("car-km-es").value = car.specs_es.km;
-                    document.getElementById("car-transmission-es").value = car.specs_es.transmission;
-                    document.getElementById("car-price-es").value = car.price.es;
+                    // Unified Specs
+                    document.getElementById("car-year").value = car.specs.year;
+                    document.getElementById("car-km").value = formatKm(car.specs.km);
+                    document.getElementById("car-transmission").value = car.specs.transmission;
+                    
+                    const currencySelect = document.getElementById("car-currency");
+                    if (currencySelect) {
+                        currencySelect.value = car.currency || "BRL";
+                    }
+                    
+                    // Format the price in the form input
+                    document.getElementById("car-price").value = formatPriceInput(String(car.price), car.currency || "BRL");
 
                     // Update image preview
                     if (car.image) {
@@ -1761,12 +2139,12 @@
                 }
             } else {
                 if (vehicles.length >= 15) {
-                    showToast("Erro: Limite de 15 veículos atingido. Remova algum veículo para adicionar novos.", true);
+                    showToast(TRANSLATIONS[currentLang].toast_error_limit, true);
                     return;
                 }
                 isEditing = false;
                 activeEditId = null;
-                modalTitle.innerText = "Adicionar Novo Veículo";
+                modalTitle.innerText = TRANSLATIONS[currentLang].modal_title_add;
                 idInput.readOnly = false;
                 
                 const categorySelect = document.getElementById("promo-campaign-select");
@@ -1883,20 +2261,22 @@
             } else if (previewSrc && previewSrc.startsWith("data:image")) {
                 image = previewSrc;
             } else {
-                showToast("Por favor, envie uma foto ou adicione uma URL válida para a imagem.", true);
+                showToast(TRANSLATIONS[currentLang].toast_error_photo, true);
                 return;
             }
 
-            // Specs
-            const year_pt = document.getElementById("car-year-pt").value.trim();
-            const km_pt = document.getElementById("car-km-pt").value.trim();
-            const transmission_pt = document.getElementById("car-transmission-pt").value.trim();
-            const price_pt = document.getElementById("car-price-pt").value.trim();
+            // Specs unificadas
+            const year = document.getElementById("car-year").value.trim();
+            const km = document.getElementById("car-km").value.trim();
+            const transmission = document.getElementById("car-transmission").value.trim();
+            const price = document.getElementById("car-price").value.trim();
+            
+            const currencySelect = document.getElementById("car-currency");
+            const currency = currencySelect ? currencySelect.value : "BRL";
 
-            const year_es = document.getElementById("car-year-es").value.trim();
-            const km_es = document.getElementById("car-km-es").value.trim();
-            const transmission_es = document.getElementById("car-transmission-es").value.trim();
-            const price_es = document.getElementById("car-price-es").value.trim();
+            // Limpa as máscaras para salvar apenas valores numéricos brutos
+            const kmVal = parseInt(km.replace(/\D/g, ""), 10) || 0;
+            const priceVal = parseInt(price.replace(/\D/g, ""), 10) || 0;
 
             const categorySelect = document.getElementById("promo-campaign-select");
             const category = categorySelect ? categorySelect.value : "feirao";
@@ -1907,19 +2287,12 @@
                 image: image,
                 isSold: isSold,
                 category: category,
-                specs_pt: {
-                    year: year_pt,
-                    km: km_pt,
-                    transmission: transmission_pt
-                },
-                specs_es: {
-                    year: year_es,
-                    km: km_es,
-                    transmission: transmission_es
-                },
-                price: {
-                    pt: price_pt,
-                    es: price_es
+                currency: currency,
+                price: priceVal,
+                specs: {
+                    year: year,
+                    km: kmVal,
+                    transmission: transmission
                 }
             };
 
@@ -1927,21 +2300,21 @@
                 const idx = vehicles.findIndex(c => c.id === activeEditId);
                 if (idx !== -1) {
                     vehicles[idx] = updatedCar;
-                    showToast("Veículo atualizado com sucesso!");
+                    showToast(TRANSLATIONS[currentLang].toast_updated);
                 }
             } else {
                 // Double check capacity limit
                 if (vehicles.length >= 15) {
-                    showToast("Erro: Limite de 15 veículos atingido. Remova algum veículo para adicionar novos.", true);
+                    showToast(TRANSLATIONS[currentLang].toast_error_limit, true);
                     return;
                 }
                 // Verify duplicate ID
                 if (vehicles.some(c => c.id === carId)) {
-                    showToast("Erro: Já existe um veículo com este ID único. Escolha outro ID.", true);
+                    showToast(TRANSLATIONS[currentLang].toast_error_duplicate, true);
                     return;
                 }
                 vehicles.push(updatedCar);
-                showToast("Veículo adicionado com sucesso!");
+                showToast(TRANSLATIONS[currentLang].toast_added);
             }
 
             saveToLocalStorage();
@@ -2316,7 +2689,7 @@
             // 5. Original Price Riscado Calculation (always display)
             const carOrigPrice = tpl.querySelector('.art-car-original-price');
             if (carOrigPrice) {
-                carOrigPrice.innerText = getPromoOriginalPrice(car.price.pt, type === 'card');
+                carOrigPrice.innerText = getPromoOriginalPrice(car, type === 'card');
             }
             
             // 6. Handle logo container and positioning
@@ -2459,14 +2832,14 @@
             }
             
             const carYear = tpl.querySelector('.art-car-year');
-            if (carYear) carYear.innerText = car.specs_pt.year;
+            if (carYear) carYear.innerText = car.specs.year;
             
             const carKm = tpl.querySelector('.art-car-km');
-            if (carKm) carKm.innerText = car.specs_pt.km;
+            if (carKm) carKm.innerText = formatKm(car.specs.km);
             
             const carTrans = tpl.querySelector('.art-car-transmission');
             if (carTrans) {
-                let transText = car.specs_pt.transmission;
+                let transText = car.specs.transmission;
                 if (type === 'card' && transText.length > 10) {
                     transText = transText.split(' ')[0];
                 }
@@ -2476,7 +2849,7 @@
             // Fuel auto-inference
             const carFuel = tpl.querySelector('.art-car-fuel');
             if (carFuel) {
-                let fuel = car.specs_pt.fuel;
+                let fuel = car.specs.fuel;
                 if (!fuel) {
                     const lowerName = car.name.toLowerCase();
                     if (lowerName.includes('hybrid') || lowerName.includes('hibrid') || lowerName.includes('híbrido')) {
@@ -2493,7 +2866,7 @@
             }
             
             const carPrice = tpl.querySelector('.art-car-price');
-            if (carPrice) carPrice.innerText = car.price.pt;
+            if (carPrice) carPrice.innerText = formatCurrencyValue(car.price, car.currency);
             
             const whatsappNum = tpl.querySelector('.art-whatsapp-number');
             if (whatsappNum) {
@@ -2584,20 +2957,18 @@
             return `+${clean}`;
         }
         
-        function getPromoOriginalPrice(pricePT, isShort = false) {
-            const numPart = pricePT.replace(/\D/g, '');
-            if (!numPart) return pricePT;
-            
-            const num = parseInt(numPart);
+        function getPromoOriginalPrice(car, isShort = false) {
+            const num = car.price;
+            const currency = CURRENCIES[car.currency] || { symbol: car.currency };
             const originalVal = Math.round(num * 1.08 / 100) * 100;
             
             if (isShort) {
                 if (originalVal >= 1000) {
                     const thousands = Math.round(originalVal / 1000);
-                    return `De R$ ${thousands}k`;
+                    return `De ${currency.symbol} ${thousands}k`;
                 }
             }
-            return "De R$ " + originalVal.toLocaleString('pt-BR');
+            return `De ${currency.symbol} ` + originalVal.toLocaleString('pt-BR');
         }
 
         function applyPromoTheme(campaign) {

@@ -1,3 +1,32 @@
+// Moedas suportadas no sistema
+const CURRENCIES = {
+    BRL: { code: 'BRL', symbol: 'R$', name: 'Real Brasileiro' },
+    USD: { code: 'USD', symbol: 'US$', name: 'Dólar Americano' },
+    PYG: { code: 'PYG', symbol: 'Gs', name: 'Guarani Paraguaio' }
+};
+
+// Formatação dinâmica de moeda (ex: US$ 110.000)
+function formatCurrencyValue(value, currencyCode) {
+    const num = Number(value) || 0;
+    const currency = CURRENCIES[currencyCode] || { symbol: currencyCode };
+    return `${currency.symbol} ${num.toLocaleString('pt-BR')}`;
+}
+
+// Formatação dinâmica de quilometragem (ex: 8.500 km)
+function formatKm(km) {
+    if (typeof km === 'number') {
+        return km.toLocaleString('pt-BR') + ' km';
+    }
+    if (typeof km === 'string' && km.toLowerCase().includes('km')) {
+        return km;
+    }
+    const num = parseInt(String(km).replace(/\D/g, ""), 10);
+    if (!isNaN(num)) {
+        return num.toLocaleString('pt-BR') + ' km';
+    }
+    return km || "0 km";
+}
+
 // Translation Dictionary
 const TRANSLATIONS = {
     pt: {
@@ -14,9 +43,10 @@ const TRANSLATIONS = {
         sec_inventory_badge: "Seleção Exclusiva",
         sec_inventory_title: "Nosso Inventário",
         sec_inventory_desc: "Veículos inspecionados, de altíssima qualidade e prontos para entrega imediata.",
-        spec_year: "Ano",
-        spec_km: "KM",
+        spec_year: "Ano/Modelo",
+        spec_km: "Quilometragem",
         spec_trans: "Câmbio",
+        spec_price: "Preço",
         btn_card_cta: "Ver Detalhes",
         btn_card_sold: "Vendido",
         sec_trade_badge: "Avaliação Rápida",
@@ -75,9 +105,10 @@ const TRANSLATIONS = {
         sec_inventory_badge: "Selección Exclusiva",
         sec_inventory_title: "Nuestro Inventario",
         sec_inventory_desc: "Vehículos inspeccionados, de altísima calidad y listos para entrega inmediata.",
-        spec_year: "Año",
-        spec_km: "KM",
+        spec_year: "Año/Modelo",
+        spec_km: "Kilometraje",
         spec_trans: "Transmisión",
+        spec_price: "Precio",
         btn_card_cta: "Ver Detalles",
         btn_card_sold: "Vendido",
         sec_trade_badge: "Valoración Rápida",
@@ -95,13 +126,13 @@ const TRANSLATIONS = {
         feat_3_desc: "Soporte completo y asesoría de mantenimiento personalizada en los primeros meses post-entrega de su vehículo.",
         sec_calc_badge: "Simulador de Estética",
         sec_calc_title: "Paquetes de Detallado y Protección",
-        sec_calc_desc: "Personalice y proteja su nuevo vehículo. Seleccione los servicios a continuación para simular el costo de protección.",
+        sec_calc_desc: "Personalice y proteja seu nuevo vehículo. Seleccione los servicios a continuación para simular el costo de protección.",
         calc_base: "Paquete de Limpieza Técnica Integrado",
         calc_base_desc: "Lavado detallado de chasis, motor e higienización interna incluida.",
         calc_item_1: "Pulido Comercial + Sellador",
         calc_item_1_desc: "Eliminación de micro-rayas y brillo protector por hasta 6 meses.",
         calc_item_2: "Vitrificado de Pintura Premium (9H)",
-        calc_item_2_desc: "Protección cerámica contra el clima y rayos UV por hasta 3 años.",
+        calc_item_2_desc: "Protección cerámica contra el clima y rayos UV por hasta 3 anos.",
         calc_item_3: "Protección PPF Frontal (Película Regenerativa)",
         calc_item_3_desc: "Película termoplástica ultra-resistente contra impactos de piedras en carretera.",
         calc_sum_title: "Resumen de Servicios",
@@ -120,7 +151,7 @@ const TRANSLATIONS = {
         filter_all: "Todos",
         filter_available: "Disponibles",
         filter_sold: "Vendidos",
-        copyright: "© 2026 Apex Motors. Desarrollado por <a href=\"https://gdsdesign.site\" target=\"_blank\" style=\"color: var(--primary); text-decoration: none; font-weight: 600;\">GDS Design</a>. Todos los derechos reservados."
+        copyright: "© 2026 Apex Motors. Desarrollado por <a href=\"https://gdsdesign.site\" target=\"_blank\" style=\"color: var(--primary); text-decoration: none; font-weight: 600;\">GDS Design</a>. Todos os direitos reservados."
     }
 };
 
@@ -130,42 +161,30 @@ let VEHICLES_DATA = [
         id: "porsche-911",
         name: "Porsche 911 Carrera S",
         image: "images/porsche_911.png",
-        specs: {
-            pt: { year: "2022/2023", km: "8.500 km", transmission: "PDK Automático" },
-            es: { year: "2022/2023", km: "8.500 km", transmission: "PDK Automático" }
-        },
-        price: {
-            pt: "R$ 899.900",
-            es: "USD 165.000"
-        },
+        category: "feirao",
+        currency: "BRL",
+        price: 899900,
+        specs: { year: "2022/2023", km: 8500, transmission: "PDK Automático" },
         isSold: false
     },
     {
         id: "bmw-m3",
         name: "BMW M3 Competition",
         image: "images/bmw_m3.png",
-        specs: {
-            pt: { year: "2021/2022", km: "15.000 km", transmission: "Automático" },
-            es: { year: "2021/2022", km: "15.000 km", transmission: "Automático" }
-        },
-        price: {
-            pt: "R$ 679.900",
-            es: "USD 125.000"
-        },
+        category: "feirao",
+        currency: "USD",
+        price: 125000,
+        specs: { year: "2021/2022", km: 15000, transmission: "Automático" },
         isSold: false
     },
     {
         id: "audi-rs6",
         name: "Audi RS6 Avant GP Edition",
         image: "images/audi_rs6.png",
-        specs: {
-            pt: { year: "2020/2021", km: "24.000 km", transmission: "Tiptronic" },
-            es: { year: "2020/2021", km: "24.000 km", transmission: "Tiptronic" }
-        },
-        price: {
-            pt: "R$ 599.900",
-            es: "USD 110.000"
-        },
+        category: "feirao",
+        currency: "PYG",
+        price: 820000000,
+        specs: { year: "2020/2021", km: 24000, transmission: "Tiptronic" },
         isSold: true
     }
 ];
@@ -199,6 +218,78 @@ let STORE_SETTINGS = {
     logo: "",
     logoPosition: "top-right"
 };
+
+function migrateVehicle(car) {
+    if (car.currency && car.specs && typeof car.specs.year !== 'undefined') {
+        return car;
+    }
+    
+    // Parse price and currency from legacy price structure
+    let legacyPriceStr = "";
+    if (car.price) {
+        if (typeof car.price === 'object') {
+            legacyPriceStr = car.price.pt || car.price.es || "";
+        } else {
+            legacyPriceStr = String(car.price);
+        }
+    }
+    
+    let currency = "BRL";
+    let priceVal = 0;
+    
+    if (legacyPriceStr) {
+        const cleanPrice = legacyPriceStr.replace(/\D/g, "");
+        priceVal = parseInt(cleanPrice, 10) || 0;
+        
+        if (legacyPriceStr.includes("US$") || legacyPriceStr.toLowerCase().includes("usd")) {
+            currency = "USD";
+        } else if (legacyPriceStr.includes("Gs") || legacyPriceStr.toLowerCase().includes("pyg")) {
+            currency = "PYG";
+        } else {
+            currency = "BRL";
+        }
+    }
+    
+    // Parse specs
+    let year = "";
+    let km = "";
+    let transmission = "";
+    
+    if (car.specs_pt) {
+        year = car.specs_pt.year || "";
+        km = car.specs_pt.km || "";
+        transmission = car.specs_pt.transmission || "";
+    } else if (car.specs_es) {
+        year = car.specs_es.year || "";
+        km = car.specs_es.km || "";
+        transmission = car.specs_es.transmission || "";
+    } else if (car.specs) {
+        const specSrc = car.specs.pt || car.specs.es || car.specs;
+        year = specSrc.year || "";
+        km = specSrc.km || "";
+        transmission = specSrc.transmission || "";
+    }
+    
+    if (typeof km === 'string') {
+        const cleanKm = km.replace(/\D/g, "");
+        km = parseInt(cleanKm, 10) || 0;
+    }
+    
+    return {
+        id: car.id,
+        name: car.name,
+        image: car.image,
+        isSold: !!car.isSold,
+        category: car.category || "feirao",
+        currency: currency,
+        price: priceVal,
+        specs: {
+            year: year,
+            km: km,
+            transmission: transmission
+        }
+    };
+}
 
 function loadStoreSettings() {
     const saved = localStorage.getItem("apex_motors_settings");
@@ -234,24 +325,13 @@ async function loadDynamicStock() {
                         }
                     }
                 });
-                if (migrated) {
-                    localStorage.setItem("apex_motors_inventory", JSON.stringify(parsed));
-                }
-
-                VEHICLES_DATA = parsed.vehicles.slice(0, 15).map(car => ({
-                    id: car.id,
-                    name: car.name,
-                    image: car.image,
-                    specs: {
-                        pt: { year: car.specs_pt.year, km: car.specs_pt.km, transmission: car.specs_pt.transmission },
-                        es: { year: car.specs_es.year, km: car.specs_es.km, transmission: car.specs_es.transmission }
-                    },
-                    price: {
-                        pt: car.price.pt,
-                        es: car.price.es
-                    },
-                    isSold: car.isSold
-                }));
+                
+                VEHICLES_DATA = parsed.vehicles.slice(0, 15).map(migrateVehicle);
+                
+                // Sempre salva os dados convertidos de volta no localStorage para consolidar a migração
+                parsed.vehicles = VEHICLES_DATA;
+                localStorage.setItem("apex_motors_inventory", JSON.stringify(parsed));
+                
                 console.log("Estoque carregado com sucesso do localStorage.");
                 return;
             }
@@ -261,20 +341,7 @@ async function loadDynamicStock() {
         if (response.ok) {
             const data = await response.json();
             if (data && data.vehicles) {
-                VEHICLES_DATA = data.vehicles.slice(0, 15).map(car => ({
-                    id: car.id,
-                    name: car.name,
-                    image: car.image,
-                    specs: {
-                        pt: { year: car.specs_pt.year, km: car.specs_pt.km, transmission: car.specs_pt.transmission },
-                        es: { year: car.specs_es.year, km: car.specs_es.km, transmission: car.specs_es.transmission }
-                    },
-                    price: {
-                        pt: car.price.pt,
-                        es: car.price.es
-                    },
-                    isSold: car.isSold
-                }));
+                VEHICLES_DATA = data.vehicles.slice(0, 15).map(migrateVehicle);
             }
         }
     } catch (e) {
@@ -384,9 +451,8 @@ function renderVehicles() {
         const card = document.createElement("div");
         card.className = `car-card ${car.isSold ? 'sold' : ''}`;
         
-        const specs = car.specs[currentLang];
         const statusText = car.isSold ? TRANSLATIONS[currentLang].btn_card_sold : TRANSLATIONS[currentLang].btn_card_cta;
-        const priceText = car.price[currentLang];
+        const priceText = formatCurrencyValue(car.price, car.currency);
 
         card.innerHTML = `
             <div class="car-img-wrap">
@@ -403,15 +469,15 @@ function renderVehicles() {
                 <div class="car-specs">
                     <div class="spec-item">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        <span>${TRANSLATIONS[currentLang].spec_year}: ${specs.year}</span>
+                        <span>${TRANSLATIONS[currentLang].spec_year}: ${car.specs.year}</span>
                     </div>
                     <div class="spec-item">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                        <span>${specs.km}</span>
+                        <span>${TRANSLATIONS[currentLang].spec_km}: ${formatKm(car.specs.km)}</span>
                     </div>
                     <div class="spec-item">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20m10-10H2"/></svg>
-                        <span>${specs.transmission}</span>
+                        <span>${TRANSLATIONS[currentLang].spec_trans}: ${car.specs.transmission}</span>
                     </div>
                 </div>
                 <div class="car-footer">

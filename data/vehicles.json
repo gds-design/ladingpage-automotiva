@@ -5,19 +5,13 @@
       "name": "Porsche 911 Carrera S",
       "image": "images/porsche_911.png",
       "isSold": false,
-      "specs_pt": {
+      "category": "feirao",
+      "currency": "BRL",
+      "price": 899900,
+      "specs": {
         "year": "2022/2023",
-        "km": "8.500 km",
+        "km": 8500,
         "transmission": "PDK Automático"
-      },
-      "specs_es": {
-        "year": "2022/2023",
-        "km": "8.500 km",
-        "transmission": "PDK Automático"
-      },
-      "price": {
-        "pt": "R$ 899.900",
-        "es": "USD 165.000"
       }
     },
     {
@@ -25,19 +19,13 @@
       "name": "BMW M3 Competition",
       "image": "images/bmw_m3.png",
       "isSold": false,
-      "specs_pt": {
+      "category": "feirao",
+      "currency": "USD",
+      "price": 125000,
+      "specs": {
         "year": "2021/2022",
-        "km": "15.000 km",
+        "km": 15000,
         "transmission": "Automático"
-      },
-      "specs_es": {
-        "year": "2021/2022",
-        "km": "15.000 km",
-        "transmission": "Automático"
-      },
-      "price": {
-        "pt": "R$ 679.900",
-        "es": "USD 125.000"
       }
     },
     {
@@ -45,19 +33,13 @@
       "name": "Audi RS6 Avant GP Edition",
       "image": "images/audi_rs6.png",
       "isSold": true,
-      "specs_pt": {
+      "category": "feirao",
+      "currency": "PYG",
+      "price": 820000000,
+      "specs": {
         "year": "2020/2021",
-        "km": "24.000 km",
+        "km": 24000,
         "transmission": "Tiptronic"
-      },
-      "specs_es": {
-        "year": "2020/2021",
-        "km": "24.000 km",
-        "transmission": "Tiptronic"
-      },
-      "price": {
-        "pt": "R$ 599.900",
-        "es": "USD 110.000"
       }
     }
   ]
