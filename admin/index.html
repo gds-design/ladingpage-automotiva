@@ -1229,8 +1229,11 @@
                                         <img id="logo-preview-element" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><polyline points='21 15 16 10 5 21'/></svg>" style="max-width: 90%; max-height: 90%; object-fit: contain;">
                                     </div>
                                     <div class="photo-preview-details">
-                                        <span>Status da Logo</span>
+                                        <span data-i18n="settings_logo_status">Status da Logo</span>
                                         <p id="logo-size-info">Nenhuma logo personalizada</p>
+                                        <button type="button" id="btn-delete-logo" class="btn-secondary" onclick="deleteLogo()" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; margin-top: 0.3rem; display: none; width: fit-content; font-weight: 700; align-items: center; gap: 4px; color: #ff6666; border-color: rgba(255, 102, 102, 0.3);" data-i18n="btn_remove_logo">
+                                            🗑️ Remover Logo
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -1461,6 +1464,7 @@
                 settings_logo_status: "Status da Logo",
                 settings_logo_empty: "Nenhuma logo personalizada",
                 settings_logo_position_label: "Posição Padrão da Logo nas Artes",
+                btn_remove_logo: "🗑️ Remover Logo",
                 
                 // Crop Modal
                 crop_modal_title: "Ajustar e Recortar Foto",
@@ -1559,6 +1563,7 @@
                 settings_logo_status: "Estado del Logo",
                 settings_logo_empty: "Ningún logo personalizado",
                 settings_logo_position_label: "Posición Predeterminada del Logo en Artes",
+                btn_remove_logo: "🗑️ Eliminar Logo",
                 
                 // Crop Modal
                 crop_modal_title: "Ajustar y Recortar Foto",
@@ -2550,13 +2555,28 @@
         function updateLogoPreview() {
             const preview = document.getElementById("logo-preview-element");
             const info = document.getElementById("logo-size-info");
+            const deleteBtn = document.getElementById("btn-delete-logo");
             
             if (storeSettings.logo) {
                 preview.src = storeSettings.logo;
-                info.innerText = `Logo carregada (${formatBytes(storeSettings.logo.length * 0.75)})`;
+                const sizeText = currentLang === 'es' ? 'Logo cargado' : 'Logo carregada';
+                info.innerText = `${sizeText} (${formatBytes(storeSettings.logo.length * 0.75)})`;
+                if (deleteBtn) deleteBtn.style.display = "inline-flex";
             } else {
                 preview.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><polyline points='21 15 16 10 5 21'/></svg>";
-                info.innerText = "Nenhuma logo personalizada";
+                info.innerText = TRANSLATIONS[currentLang].settings_logo_empty;
+                if (deleteBtn) deleteBtn.style.display = "none";
+            }
+        }
+
+        function deleteLogo() {
+            const confirmMsg = currentLang === 'es' ? '¿Desea eliminar el logo personalizado?' : 'Deseja remover a logo personalizada?';
+            if (confirm(confirmMsg)) {
+                storeSettings.logo = "";
+                updateLogoPreview();
+                const logoInput = document.getElementById("logo-upload-input");
+                if (logoInput) logoInput.value = "";
+                showToast(currentLang === 'es' ? 'Logo eliminado. ¡No olvide guardar!' : 'Logo removida. Não se esqueça de Salvar!');
             }
         }
 
