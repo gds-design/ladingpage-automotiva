@@ -1091,7 +1091,7 @@
                         </p>
                         <div style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem;">
                             <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 0.3rem;">
-                                <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Selecione o Tema / Categoria:</label>
+                                <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;" data-i18n="art_campaign_label">Selecione o Tema / Categoria:</label>
                                 <select id="promo-campaign-select" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-card); color: var(--text-main); padding: 0.5rem; border-radius: var(--radius-md); font-family: var(--font); font-size: 0.85rem; width: 100%;">
                                     <option value="feirao">🔥 Feirão</option>
                                     <option value="oferta">🏷️ Oferta</option>
@@ -1409,7 +1409,7 @@
                 btn_edit: "Editar",
                 btn_delete: "Excluir",
                 btn_download_arts: "🎨 Baixar Artes",
-                art_campaign_label: "Tema / Categoria:",
+                art_campaign_label: "Selecione o Tema / Categoria:",
                 art_card: "🎴 Card da Vitrine",
                 art_instagram: "📸 Instagram Feed (1080x1080)",
                 art_whatsapp: "💬 WhatsApp Status (1080x1920)",
@@ -1507,7 +1507,7 @@
                 btn_edit: "Editar",
                 btn_delete: "Eliminar",
                 btn_download_arts: "🎨 Descargar Artes",
-                art_campaign_label: "Tema / Categoría:",
+                art_campaign_label: "Seleccione el Tema / Categoría:",
                 art_card: "🎴 Tarjeta de Vitrina",
                 art_instagram: "📸 Feed de Instagram (1080x1080)",
                 art_whatsapp: "💬 Estado de WhatsApp (1080x1920)",
@@ -1620,6 +1620,36 @@
             const searchInput = document.getElementById("search-input");
             if (searchInput) {
                 searchInput.placeholder = TRANSLATIONS[lang].search_placeholder;
+            }
+
+            // Update campaign select options
+            const categorySelect = document.getElementById("promo-campaign-select");
+            if (categorySelect) {
+                const currentVal = categorySelect.value;
+                if (lang === 'es') {
+                    categorySelect.innerHTML = `
+                        <option value="oferta">🏷️ Oferta</option>
+                        <option value="promocion">🔥 Promocíon</option>
+                        <option value="sin_uso">⭐ Sin Uso</option>
+                    `;
+                } else {
+                    categorySelect.innerHTML = `
+                        <option value="feirao">🔥 Feirão</option>
+                        <option value="oferta">🏷️ Oferta</option>
+                        <option value="destaque">⭐ Destaque</option>
+                    `;
+                }
+                
+                // Map values if switching language
+                let mappedVal = currentVal;
+                if (lang === 'es') {
+                    if (currentVal === 'feirao') mappedVal = 'promocion';
+                    else if (currentVal === 'destaque') mappedVal = 'sin_uso';
+                } else {
+                    if (currentVal === 'promocion') mappedVal = 'feirao';
+                    else if (currentVal === 'sin_uso') mappedVal = 'destaque';
+                }
+                categorySelect.value = mappedVal;
             }
 
             renderCarList();
@@ -2036,6 +2066,28 @@
                 const priceText = formatCurrencyValue(car.price, car.currency);
                 const kmText = formatKm(car.specs.km);
 
+                let optionsHTML = "";
+                let carCategory = car.category || "feirao";
+                if (currentLang === 'es') {
+                    if (carCategory === 'feirao') carCategory = 'promocion';
+                    else if (carCategory === 'destaque') carCategory = 'sin_uso';
+                    
+                    optionsHTML = `
+                        <option value="oferta" ${carCategory === 'oferta' ? 'selected' : ''}>🏷️ Oferta</option>
+                        <option value="promocion" ${carCategory === 'promocion' ? 'selected' : ''}>🔥 Promocíon</option>
+                        <option value="sin_uso" ${carCategory === 'sin_uso' ? 'selected' : ''}>⭐ Sin Uso</option>
+                    `;
+                } else {
+                    if (carCategory === 'promocion') carCategory = 'feirao';
+                    else if (carCategory === 'sin_uso') carCategory = 'destaque';
+                    
+                    optionsHTML = `
+                        <option value="feirao" ${carCategory === 'feirao' ? 'selected' : ''}>🔥 Feirão</option>
+                        <option value="oferta" ${carCategory === 'oferta' ? 'selected' : ''}>🏷️ Oferta</option>
+                        <option value="destaque" ${carCategory === 'destaque' ? 'selected' : ''}>⭐ Destaque</option>
+                    `;
+                }
+
                 card.innerHTML = `
                     <div class="admin-car-img">
                         ${car.isSold ? `<span class="admin-badge-sold" data-i18n="btn_card_sold">${TRANSLATIONS[currentLang].btn_card_sold}</span>` : ''}
@@ -2063,9 +2115,7 @@
                             <div style="display: flex; flex-direction: column; width: 100%; margin-bottom: 0.2rem; gap: 0.2rem;">
                                 <label style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="art_campaign_label">${TRANSLATIONS[currentLang].art_campaign_label}</label>
                                 <select id="categoria-select-${car.id}" style="background: rgba(0,0,0,0.6); border: 1px solid var(--border-card); color: var(--text-main); font-size: 0.8rem; padding: 0.4rem; border-radius: 4px; font-family: var(--font); width: 100%;" onchange="updateCarCategory('${car.id}', this.value)">
-                                    <option value="feirao" ${car.category === 'feirao' ? 'selected' : ''}>🔥 Feirão</option>
-                                    <option value="oferta" ${car.category === 'oferta' ? 'selected' : ''}>🏷️ Oferta</option>
-                                    <option value="destaque" ${car.category === 'destaque' ? 'selected' : ''}>⭐ Destaque</option>
+                                    ${optionsHTML}
                                 </select>
                             </div>
                             <button type="button" class="sidebar-link" onclick="generateArtDirect('${car.id}', 'card')" style="padding: 0.4rem; font-size: 0.8rem; text-align: center; justify-content: center; width: 100%; font-weight: 600;" data-i18n="art_card">${TRANSLATIONS[currentLang].art_card}</button>
@@ -2110,7 +2160,15 @@
                     // Set category
                     const categorySelect = document.getElementById("promo-campaign-select");
                     if (categorySelect) {
-                        categorySelect.value = car.category || "feirao";
+                        let catVal = car.category || "feirao";
+                        if (currentLang === 'es') {
+                            if (catVal === 'feirao') catVal = 'promocion';
+                            else if (catVal === 'destaque') catVal = 'sin_uso';
+                        } else {
+                            if (catVal === 'promocion') catVal = 'feirao';
+                            else if (catVal === 'sin_uso') catVal = 'destaque';
+                        }
+                        categorySelect.value = catVal;
                     }
                     
                     // Unified Specs
@@ -2149,7 +2207,7 @@
                 
                 const categorySelect = document.getElementById("promo-campaign-select");
                 if (categorySelect) {
-                    categorySelect.value = "feirao";
+                    categorySelect.value = currentLang === 'es' ? "promocion" : "feirao";
                 }
             }
 
@@ -2634,28 +2692,62 @@
             loadSettings();
             
             // Apply category theme styles
-            const categoryThemes = {
-                feirao: {
-                    color: '#E31837', // Red
-                    badgeText: 'FEIRÃO',
-                    priceLabel: 'POR APENAS',
-                    priceLabelShort: 'POR'
-                },
-                oferta: {
-                    color: '#0066FF', // Electric Blue
-                    badgeText: 'OFERTA',
-                    priceLabel: 'POR APENAS',
-                    priceLabelShort: 'POR'
-                },
-                destaque: {
-                    color: '#D4AF37', // Gold/Champagne
-                    badgeText: 'DESTAQUE',
-                    priceLabel: 'POR APENAS',
-                    priceLabelShort: 'POR'
-                }
-            };
+            let categoryThemes = {};
+            if (currentLang === 'es') {
+                categoryThemes = {
+                    promocion: {
+                        color: '#E31837', // Red
+                        badgeText: 'PROMOCIÓN',
+                        priceLabel: 'A SÓLO',
+                        priceLabelShort: 'POR'
+                    },
+                    oferta: {
+                        color: '#0066FF', // Electric Blue
+                        badgeText: 'OFERTA',
+                        priceLabel: 'A SÓLO',
+                        priceLabelShort: 'POR'
+                    },
+                    sin_uso: {
+                        color: '#2ecc71', // Green
+                        badgeText: 'SIN USO',
+                        priceLabel: 'A SÓLO',
+                        priceLabelShort: 'POR'
+                    }
+                };
+            } else {
+                categoryThemes = {
+                    feirao: {
+                        color: '#E31837', // Red
+                        badgeText: 'FEIRÃO',
+                        priceLabel: 'POR APENAS',
+                        priceLabelShort: 'POR'
+                    },
+                    oferta: {
+                        color: '#0066FF', // Electric Blue
+                        badgeText: 'OFERTA',
+                        priceLabel: 'POR APENAS',
+                        priceLabelShort: 'POR'
+                    },
+                    destaque: {
+                        color: '#D4AF37', // Gold/Champagne
+                        badgeText: 'DESTAQUE',
+                        priceLabel: 'POR APENAS',
+                        priceLabelShort: 'POR'
+                    }
+                };
+            }
+
+            // Normalize campaign for language transitions
+            let normalizedCampaign = campaign;
+            if (currentLang === 'es') {
+                if (campaign === 'feirao') normalizedCampaign = 'promocion';
+                else if (campaign === 'destaque') normalizedCampaign = 'sin_uso';
+            } else {
+                if (campaign === 'promocion') normalizedCampaign = 'feirao';
+                else if (campaign === 'sin_uso') normalizedCampaign = 'destaque';
+            }
             
-            const theme = categoryThemes[campaign] || categoryThemes.feirao;
+            const theme = categoryThemes[normalizedCampaign] || (currentLang === 'es' ? categoryThemes.promocion : categoryThemes.feirao);
             
             // 1. Badge Text & Background Color
             const badge = tpl.querySelector('.art-badge');
@@ -2680,10 +2772,15 @@
                 }
             }
             
-            // 4. Footer CTA Text Color
+            // 4. Footer CTA Text Color and Translation
             const footerCta = tpl.querySelector('.art-footer-cta');
             if (footerCta) {
                 footerCta.style.color = theme.color;
+                if (currentLang === 'es') {
+                    footerCta.innerText = '¿Te gustó este vehículo? Escríbenos por WhatsApp';
+                } else {
+                    footerCta.innerText = 'Gostou deste veículo? Chame no WhatsApp';
+                }
             }
             
             // 5. Original Price Riscado Calculation (always display)
@@ -2825,7 +2922,7 @@
                 } else {
                     const brandEl = tpl.querySelector('.art-car-brand');
                     if (brandEl) {
-                        brandEl.innerText = 'VEÍCULO';
+                        brandEl.innerText = (currentLang === 'es') ? 'VEHÍCULO' : 'VEÍCULO';
                     }
                     carName.innerText = car.name;
                 }
@@ -2855,12 +2952,16 @@
                     if (lowerName.includes('hybrid') || lowerName.includes('hibrid') || lowerName.includes('híbrido')) {
                         fuel = 'Híbrido';
                     } else if (lowerName.includes('electric') || lowerName.includes('e-') || lowerName.includes('elétrico')) {
-                        fuel = 'Elétrico';
+                        fuel = (currentLang === 'es') ? 'Eléctrico' : 'Elétrico';
                     } else if (lowerName.includes('diesel') || lowerName.includes('d-')) {
                         fuel = 'Diesel';
                     } else {
-                        fuel = 'Gasolina';
+                        fuel = (currentLang === 'es') ? 'Nafta' : 'Gasolina';
                     }
+                }
+                if (currentLang === 'es') {
+                    if (fuel === 'Elétrico') fuel = 'Eléctrico';
+                    else if (fuel === 'Gasolina') fuel = 'Nafta';
                 }
                 carFuel.innerText = fuel;
             }
@@ -2962,13 +3063,15 @@
             const currency = CURRENCIES[car.currency] || { symbol: car.currency };
             const originalVal = Math.round(num * 1.08 / 100) * 100;
             
+            const prefix = currentLang === 'es' ? 'Antes' : 'De';
+            
             if (isShort) {
                 if (originalVal >= 1000) {
                     const thousands = Math.round(originalVal / 1000);
-                    return `De ${currency.symbol} ${thousands}k`;
+                    return `${prefix} ${currency.symbol} ${thousands}k`;
                 }
             }
-            return `De ${currency.symbol} ` + originalVal.toLocaleString('pt-BR');
+            return `${prefix} ${currency.symbol} ` + originalVal.toLocaleString('pt-BR');
         }
 
         function applyPromoTheme(campaign) {
